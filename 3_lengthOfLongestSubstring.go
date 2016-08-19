@@ -1,6 +1,8 @@
 package main
 
 /**
+Author: xzdbd
+
 Given a string, find the length of the longest substring without repeating characters.
 
 Examples:
@@ -11,6 +13,17 @@ Given "bbbbb", the answer is "b", with the length of 1.
 
 Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 */
+
+/*
+ * Idea:
+ *
+ * Using a map store each char's index.
+ *
+ * So, we can be easy to know the when duplication and the previous duplicated char's index.
+ *
+ * Then we can take out the previous duplicated char, and keep tracking the maxiumn length.
+ *
+ */
 
 import (
 	"fmt"
@@ -27,28 +40,18 @@ func main() {
 }
 
 func lengthOfLongestSubstring(s string) int {
-	length := 0
-	for i := 0; i < len(s)-1; i++ {
-		for j := i + 1; j < len(s); j++ {
-			if !isUnique(s[i:j]) {
-				break
-			} else {
-				if j-i > length {
-					length = j - i
-				}
-			}
+	var m map[byte]int
+	m = make(map[byte]int)
+	maxLen := 0
+	lastRepeatPos := -1
+	for i := 0; i < len(s); i++ {
+		if _, ok := m[s[i]]; ok && lastRepeatPos < m[s[i]] {
+			lastRepeatPos = m[s[i]]
 		}
-	}
-	return length
-}
-
-func isUnique(sub string) bool {
-	for i := 0; i < len(sub)-1; i++ {
-		for j := i + 1; j < len(sub); j++ {
-			if sub[i] == sub[j] {
-				return false
-			}
+		if i-lastRepeatPos > maxLen {
+			maxLen = i - lastRepeatPos
 		}
+		m[s[i]] = i
 	}
-	return true
+	return maxLen
 }
