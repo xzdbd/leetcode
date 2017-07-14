@@ -11,6 +11,10 @@ Your function should return length = 2, with the first two elements of nums bein
 
 package main
 
+import (
+	"fmt"
+)
+
 func removeDuplicates(nums []int) int {
 	if len(nums) == 0 {
 		return 0
@@ -22,4 +26,15 @@ func removeDuplicates(nums []int) int {
 		}
 	}
 	return len(nums)
+}
+
+func main() {
+	nums1 := []int{}
+	nums2 := []int{1, 1, 3}
+	nums3 := []int{1, 2, 4, 4, 5, 6, 7, 8}
+	removeDuplicates(nums2)
+
+	fmt.Printf("%v: %d: %v\n", nums1, removeDuplicates(nums1), nums1)
+	fmt.Printf("%v: %d: %v\n", nums2, removeDuplicates(nums2), nums2)
+	fmt.Printf("%v: %d: %v\n", nums3, removeDuplicates(nums3), nums3)
 }
