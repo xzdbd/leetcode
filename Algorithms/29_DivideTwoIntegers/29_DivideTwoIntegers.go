@@ -29,7 +29,9 @@ import (
 )
 
 const (
+	// IntMax is the maximum of int32
 	IntMax = 1<<31 - 1
+	// IntMin is the minimum of int32
 	IntMin = -1 << 31
 )
 
