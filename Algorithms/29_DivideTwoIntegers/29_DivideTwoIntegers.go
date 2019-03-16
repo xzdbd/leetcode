@@ -28,20 +28,43 @@ import (
 	"fmt"
 )
 
-func divide(dividend int, divisor int) int {
-	var i, div uint
-	for i = 31; i >= 1; i-- {
+const (
+	IntMax = 1<<31 - 1
+	IntMin = -1 << 31
+)
 
-		if (divisor >> i) > 0 {
-			fmt.Println(divisor)
-			div += i
-			divisor -= (1 << i)
+func divide(dividend int, divisor int) int {
+	if dividend == IntMin && divisor == -1 {
+		return IntMax
+	}
+	var i uint
+	var sign, ans int
+	if (dividend > 0) && (divisor > 0) || (dividend < 0) && (divisor < 0) {
+		sign = 1
+	} else {
+		sign = -1
+	}
+	dividend = abs(dividend)
+	divisor = abs(divisor)
+	for i = 31; ; i-- {
+		if (dividend >> i) >= divisor {
+			ans += (1 << i)
+			dividend -= (divisor << i)
+		}
+		if i == 0 {
+			break
 		}
 	}
-	return (dividend >> div)
+	return ans * sign
+}
+
+func abs(x int) int {
+	y := x >> 31
+	return (x ^ y) - y
 }
 
 func main() {
-	fmt.Println(1 << 0)
-	fmt.Println(divide(5, 5))
+	fmt.Println(divide(-2147483648, -1))
+	fmt.Println(divide(5, 2))
+	fmt.Println(divide(5, -3))
 }
